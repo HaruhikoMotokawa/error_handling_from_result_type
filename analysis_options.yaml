@@ -1,0 +1,51 @@
+# very_good_analysisの標準的なリントルールセットを読み込みます。
+include: package:very_good_analysis/analysis_options.yaml
+
+analyzer:
+  # 言語に関するリントの設定
+  # language:
+
+  plugins:
+    # custom_lintプラグインを利用して、カスタムリントルールを適用します。
+    - custom_lint
+
+  exclude:
+    # 自動生成ファイル（g.dart）をリントから除外します。
+    - lib/**.g.dart
+    # 自動生成ファイル（freezed.dart）をリントから除外します。
+    - lib/**.freezed.dart
+    # firebase関連のコードを含む特定のディレクトリ内のファイルをリントから除外します。
+    - lib/core/firebase/**.dart
+    # flavor_firebase_options.dartファイルをリントから除外します。
+    - lib/core/flavor_firebase_options.dart
+    # テスト用のモックファイル（mocks.dart）をリントから除外します。
+    - test/**.mocks.dart
+
+  errors:
+    # TODOコメントをエラーとして扱わないようにします。
+    TODO: ignore
+    # HACKコメントをエラーとして扱わないようにします。
+    HACK: ignore
+    # switch文でdefaultケースがなくてもエラーとしないようにします。
+    no_default_cases: ignore
+    # ignoreコメントになぜ無視するのかのコメントをつけなくてもエラーとしないようにします。
+    document_ignores: ignore
+
+linter:
+  rules:
+    # pubspec.yamlの依存関係がアルファベット順にソートされていなくても警告しないようにします。
+    sort_pub_dependencies: false
+    # パブリックメンバーにドキュメントコメントがなくても警告しないようにします。
+    public_member_api_docs: false
+    # メソッドやコンストラクタの引数に直接値を割り当てることを禁止しないようにします。
+    parameter_assignments: false
+    # TODOコメントが特定のスタイルに従っていなくても警告しないようにします。
+    flutter_style_todos: false
+    # assertにメッセージがなくても警告しないようにします。
+    prefer_asserts_with_message: false
+    # 使用しているパッケージにpubspec.yamlから参照していないものがあっても警告しないようにします。
+    depend_on_referenced_packages: false
+    # switch文でdefaultケースがなくても警告しないようにします。
+    no_default_cases: false
+    # abstractクラスに定義されているメソッドかプロパティーが一つであっても警告しないようにします。
+    one_member_abstracts: false

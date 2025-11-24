@@ -1,0 +1,26 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "error_handling_from_result_type (debug mode)",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "debug",
+      "program": "lib/main/main.dart"
+    },
+    {
+      "name": "error_handling_from_result_type (profile mode)",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "profile",
+      "program": "lib/main/main.dart"
+    },
+    {
+      "name": "error_handling_from_result_type (release mode)",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "release",
+      "program": "lib/main/main.dart"
+    },
+  ]
+}

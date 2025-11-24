@@ -1,0 +1,121 @@
+{
+  "editor.formatOnSave": true,
+  "files.trimFinalNewlines": true,
+  "files.insertFinalNewline": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit",
+    "source.organizeImports": "explicit",
+    "source.addMissingImports": "explicit",
+    "quickfix.insertSemicolon": "explicit",
+    "quickfix.add.override": "explicit",
+    "quickfix.add.curlyBraces": "explicit"
+  },
+  "[dart]": {
+    "editor.formatOnSave": true,
+    "editor.formatOnType": true,
+    "editor.rulers": [
+      80
+    ],
+    "editor.codeActionsOnSave": {
+      "quickfix.insertSemicolon": "explicit",
+      "source.fixAll": "explicit"
+    },
+    "editor.selectionHighlight": false,
+    "editor.wordBasedSuggestions": "off",
+    "editor.stickyScroll.enabled": true
+  },
+  "explorer.fileNesting.patterns": {
+    "pubspec.yaml": ".flutter-plugins, .packages, .dart_tool, .flutter-plugins-dependencies, .metadata, .packages, pubspec.lock, build.yaml, analysis_options.yaml, all_lint_rules.yaml, devtools_options.yaml",
+    ".gitignore": ".gitattributes, .gitmodules, .gitmessage, .mailmap, .git-blame*",
+    "*.dart": "${capture}.g.dart, ${capture}.freezed.dart, ${capture}.mocks.dart"
+  },
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.expand": false,
+  "dart.previewFlutterUiGuides": true,
+  "dart.flutterSdkPath": ".fvm/versions/3.35.4",
+  "cSpell.customDictionaries": {
+    "project-words": {
+      "name": "project-words",
+      "path": "${workspaceRoot}/project-words.txt",
+      "description": "Words used in this project",
+      "addWords": true
+    }
+  },
+  "cSpell.files": [
+    "lib/**/*.dart",
+    "test/**/*.dart",
+    "README.md"
+  ],
+  "better-comments.tags": [
+    {
+      "tag": "INFO:",
+      "color": "#0A0A0AFF",
+      "strikethrough": false,
+      "underline": false,
+      "backgroundColor": "#3498DB",
+      "bold": false,
+      "italic": false
+    },
+    {
+      "tag": "TODO:",
+      "color": "#FF8C00",
+      "strikethrough": false,
+      "underline": false,
+      "backgroundColor": "transparent",
+      "bold": false,
+      "italic": false
+    },
+    {
+      "tag": "HACK:",
+      "color": "#D516D5FF",
+      "strikethrough": false,
+      "underline": false,
+      "backgroundColor": "transparent",
+      "bold": false,
+      "italic": false
+    },
+    {
+      "tag": "FIXME:",
+      "color": "#FF2D00",
+      "strikethrough": false,
+      "underline": false,
+      "backgroundColor": "transparent",
+      "bold": false,
+      "italic": false
+    }
+  ],
+  "todo-tree.general.tags": [
+    "INFO:",
+    "TODO:",
+    "HACK:",
+    "FIXME:"
+  ],
+  "todo-tree.highlights.customHighlight": {
+    "INFO:": {
+      "icon": "info",
+      "foreground": "#050606",
+      "iconColour": "#3498DB"
+    },
+    "TODO:": {
+      "icon": "check",
+      "foreground": "#FF8C00",
+      "iconColour": "#FF8C00"
+    },
+    "HACK:": {
+      "icon": "tools",
+      "foreground": "#D516D5FF",
+      "iconColour": "#D516D5FF"
+    },
+    "FIXME:": {
+      "icon": "flame",
+      "foreground": "#FF2D00",
+      "iconColour": "#FF2D00"
+    }
+  },
+  "todo-tree.tree.scanMode": "workspace only",
+  "cSpell.words": [
+    "fvmrc",
+    "pubspec",
+    "riverpod"
+  ]
+}

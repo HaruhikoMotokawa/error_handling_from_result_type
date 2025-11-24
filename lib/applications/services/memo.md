@@ -1,0 +1,6 @@
+# サービス層の基本ルール
+
+Service層はripositoryの機能やデータを組み合わせて機能を作る場合に作成します。
+
+Service層はdata層のリポジトリのみ参照可能です。
+Service層がdata層のsourceを直接参照するのは禁止です。
