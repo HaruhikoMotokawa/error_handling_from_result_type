@@ -4,16 +4,19 @@ import 'package:error_handling_from_result_type/core/result/result.dart';
 import 'package:error_handling_from_result_type/data/repositories/user/exceptions/get_user_exception.dart';
 import 'package:error_handling_from_result_type/data/sources/remote/user_remote_data_source.dart';
 import 'package:error_handling_from_result_type/domains/entities/user.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'user_repository.fetch_user_exception.dart';
 part 'user_repository.save_user_exception.dart';
 part 'user_repository.typedef.dart';
 
 class UserRepository {
-  UserRepository({
-    required UserRemoteDataSource remoteDataSource,
-  }) : _remoteDataSource = remoteDataSource;
-  final UserRemoteDataSource _remoteDataSource;
+  const UserRepository(this.ref);
+
+  final Ref ref;
+
+  UserRemoteDataSource get _remoteDataSource =>
+      ref.read(userRemoteDataSourceProvider);
 
   /// 指定されたIDのユーザー情報を取得する
   Future<GetUserResult> getUser(String id) async {
