@@ -8,7 +8,6 @@ import 'package:error_handling_from_result_type/data/repositories/user/user_repo
 import 'package:error_handling_from_result_type/domains/entities/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -28,13 +27,24 @@ class HomeScreen extends ConsumerWidget {
       appBar: AppBar(
         title: const Text('User Repository Demo'),
       ),
-      body: Center(
-        child: Column(
-          children: [
-            _AsyncUserInfo(asyncUser),
-            const Gap(20),
-            _AsyncUserResultInfo(asyncUserResult),
-          ],
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: 20,
+            children: [
+              const Text('User Info \n(using AsyncValue<User>)'),
+              _AsyncUserInfo(asyncUser),
+              const Divider(),
+              const Text(
+                'User Info '
+                '\n(using AsyncValue<Result<User, GetUserException>>>)',
+              ),
+              _AsyncUserResultInfo(asyncUserResult),
+            ],
+          ),
         ),
       ),
     );
