@@ -1,5 +1,7 @@
 import 'package:error_handling_from_result_type/core/exceptions/app_exception.dart';
+import 'package:error_handling_from_result_type/core/exceptions/demo_exceptions.dart';
 import 'package:error_handling_from_result_type/core/result/result.dart';
+import 'package:error_handling_from_result_type/data/repositories/user/exceptions/get_user_exception.dart';
 import 'package:error_handling_from_result_type/data/sources/remote/user_remote_data_source.dart';
 import 'package:error_handling_from_result_type/domains/entities/user.dart';
 
@@ -36,14 +38,14 @@ class UserRepository {
     try {
       final user = await _remoteDataSource.getUser(id);
       return Result.success(user);
-    } on NetworkException catch (e) {
-      return Result.failure(FetchUserNetworkException(e));
-    } on ServerException catch (e) {
-      return Result.failure(FetchUserServerException(e));
-    } on TimeoutException catch (e) {
-      return Result.failure(FetchUserTimeoutException(e));
+    } on NetworkException {
+      return const Result.failure(FetchUserNetworkException());
+    } on ServerException {
+      return const Result.failure(FetchUserServerException());
+    } on TimeoutException {
+      return const Result.failure(FetchUserTimeoutException());
     } on Exception catch (e) {
-      return Result.failure(FetchUserUnexpectedException(e));
+      return Result.failure(FetchUserUnexpectedException(e.toString()));
     }
   }
 
@@ -55,12 +57,12 @@ class UserRepository {
 
       // 正常に保存完了
       return Result.success(user);
-    } on StorageException catch (e) {
-      return Result.failure(SaveUserStorageException(e));
-    } on PermissionException catch (e) {
-      return Result.failure(SaveUserPermissionException(e));
+    } on StorageException {
+      return const Result.failure(SaveUserStorageException());
+    } on PermissionException {
+      return const Result.failure(SaveUserPermissionException());
     } on Exception catch (e) {
-      return Result.failure(SaveUserUnexpectedException(e));
+      return Result.failure(SaveUserUnexpectedException(e.toString()));
     }
   }
 }

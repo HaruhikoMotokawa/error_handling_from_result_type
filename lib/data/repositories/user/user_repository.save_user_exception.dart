@@ -1,19 +1,37 @@
 part of 'user_repository.dart';
 
 // save のエラー型（パブリック）
-sealed class SaveUserException implements Exception {
-  const SaveUserException(this.cause);
-  final Exception cause;
+sealed class SaveUserException extends AppException {
+  const SaveUserException({
+    required super.prefix,
+    required super.code,
+    required super.message,
+  });
 }
 
 class SaveUserStorageException extends SaveUserException {
-  const SaveUserStorageException(StorageException super.cause);
+  const SaveUserStorageException()
+      : super(
+          prefix: 'SaveUserStorageException',
+          code: 2001,
+          message: 'ストレージ容量が不足しています',
+        );
 }
 
 class SaveUserPermissionException extends SaveUserException {
-  const SaveUserPermissionException(PermissionException super.cause);
+  const SaveUserPermissionException()
+      : super(
+          prefix: 'SaveUserPermissionException',
+          code: 2002,
+          message: '書き込み権限がありません',
+        );
 }
 
 class SaveUserUnexpectedException extends SaveUserException {
-  const SaveUserUnexpectedException(super.cause);
+  const SaveUserUnexpectedException(String detail)
+      : super(
+          prefix: 'SaveUserUnexpectedException',
+          code: 2099,
+          message: '予期しないエラー: $detail',
+        );
 }

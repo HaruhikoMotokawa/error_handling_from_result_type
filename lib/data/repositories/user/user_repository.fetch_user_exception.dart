@@ -1,23 +1,46 @@
 part of 'user_repository.dart';
 
-// fetch のエラー型（パブリック）
-sealed class FetchUserException implements Exception {
-  const FetchUserException(this.cause);
-  final Exception cause;
+// fetch のエラー型
+sealed class FetchUserException extends AppException {
+  const FetchUserException({
+    required super.prefix,
+    required super.code,
+    required super.message,
+  });
 }
 
 class FetchUserNetworkException extends FetchUserException {
-  const FetchUserNetworkException(NetworkException super.cause);
+  const FetchUserNetworkException()
+      : super(
+          prefix: 'FetchUser',
+          code: 1001,
+          message: 'ネットワークに接続できません',
+        );
 }
 
 class FetchUserServerException extends FetchUserException {
-  const FetchUserServerException(ServerException super.cause);
+  const FetchUserServerException()
+      : super(
+          prefix: 'FetchUser',
+          code: 1002,
+          message: 'サーバーエラーが発生しました',
+        );
 }
 
 class FetchUserTimeoutException extends FetchUserException {
-  const FetchUserTimeoutException(TimeoutException super.cause);
+  const FetchUserTimeoutException()
+      : super(
+          prefix: 'FetchUser',
+          code: 1003,
+          message: 'リクエストがタイムアウトしました',
+        );
 }
 
 class FetchUserUnexpectedException extends FetchUserException {
-  const FetchUserUnexpectedException(super.cause);
+  const FetchUserUnexpectedException(String detail)
+      : super(
+          prefix: 'FetchUser',
+          code: 1099,
+          message: '予期しないエラー: $detail',
+        );
 }

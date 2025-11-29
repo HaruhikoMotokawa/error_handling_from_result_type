@@ -1,7 +1,6 @@
 import 'package:error_handling_from_result_type/core/result/result.dart';
+import 'package:error_handling_from_result_type/data/repositories/user/exceptions/get_user_exception.dart';
 import 'package:error_handling_from_result_type/data/repositories/user/providers/user_repository_provider.dart';
-import 'package:error_handling_from_result_type/data/repositories/user/user_repository.dart'
-    show GetUserFetchException, GetUserSaveException;
 import 'package:error_handling_from_result_type/domains/entities/user.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

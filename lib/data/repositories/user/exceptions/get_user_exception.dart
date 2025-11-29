@@ -1,29 +1,17 @@
-// 公開API用のエラー型
+import 'package:error_handling_from_result_type/data/repositories/user/user_repository.dart';
+
 sealed class GetUserException implements Exception {
-  const GetUserException(this.cause);
-  final Exception cause;
+  const GetUserException();
 }
 
-class NetworkGetUserException extends GetUserException {
-  const NetworkGetUserException(super.cause);
+/// リモート取得中に発生したエラー（中身に FetchUserException を丸ごと持つ）
+class GetUserFetchException extends GetUserException {
+  const GetUserFetchException(this.cause);
+  final FetchUserException cause;
 }
 
-class ServerGetUserException extends GetUserException {
-  const ServerGetUserException(super.cause);
-}
-
-class TimeoutGetUserException extends GetUserException {
-  const TimeoutGetUserException(super.cause);
-}
-
-class StorageGetUserException extends GetUserException {
-  const StorageGetUserException(super.cause);
-}
-
-class PermissionGetUserException extends GetUserException {
-  const PermissionGetUserException(super.cause);
-}
-
-class UnexpectedGetUserException extends GetUserException {
-  const UnexpectedGetUserException(super.cause);
+/// ローカル保存中に発生したエラー（中身に SaveUserException を丸ごと持つ）
+class GetUserSaveException extends GetUserException {
+  const GetUserSaveException(this.cause);
+  final SaveUserException cause;
 }
