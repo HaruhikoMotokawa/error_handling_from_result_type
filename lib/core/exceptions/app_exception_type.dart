@@ -2,57 +2,61 @@
 enum AppExceptionType {
   // Fetch系
   fetchUserNetwork(
-    'FetchUserNetworkException',
-    1001,
-    'ネットワークに接続できません',
+    prefix: 'FetchUserNetworkException',
+    code: 1001,
+    message: 'ネットワークに接続できません',
   ),
   fetchUserServer(
-    'FetchUserServerException',
-    1002,
-    'サーバーエラーが発生しました',
+    prefix: 'FetchUserServerException',
+    code: 1002,
+    message: 'サーバーエラーが発生しました',
   ),
   fetchUserTimeout(
-    'FetchUserTimeoutException',
-    1003,
-    'リクエストがタイムアウトしました',
+    prefix: 'FetchUserTimeoutException',
+    code: 1003,
+    message: 'リクエストがタイムアウトしました',
   ),
   fetchUserUnexpected(
-    'FetchUserUnexpectedException',
-    1099,
-    '予期しないエラーが発生しました',
+    prefix: 'FetchUserUnexpectedException',
+    code: 1099,
+    message: '予期しないエラーが発生しました',
   ),
 
   // Save系
   saveUserStorage(
-    'SaveUserStorageException',
-    2001,
-    'ストレージ容量が不足しています',
+    prefix: 'SaveUserStorageException',
+    code: 2001,
+    message: 'ストレージ容量が不足しています',
   ),
   saveUserPermission(
-    'SaveUserPermissionException',
-    2002,
-    '書き込み権限がありません',
+    prefix: 'SaveUserPermissionException',
+    code: 2002,
+    message: '書き込み権限がありません',
   ),
   saveUserUnexpected(
-    'SaveUserUnexpectedException',
-    2099,
-    '予期しないエラーが発生しました',
+    prefix: 'SaveUserUnexpectedException',
+    code: 2099,
+    message: '予期しないエラーが発生しました',
   ),
 
   // GetUser系（上位層）
   getUserFetch(
-    'GetUserFetchException',
-    3001,
-    'ユーザー取得に失敗しました',
+    prefix: 'GetUserFetchException',
+    code: 3001,
+    message: 'ユーザー取得に失敗しました',
   ),
   getUserSave(
-    'GetUserSaveException',
-    3002,
-    'ユーザー保存に失敗しました',
+    prefix: 'GetUserSaveException',
+    code: 3002,
+    message: 'ユーザー保存に失敗しました',
   ),
   ;
 
-  const AppExceptionType(this.prefix, this.code, this.message);
+  const AppExceptionType({
+    required this.prefix,
+    required this.code,
+    required this.message,
+  });
 
   final String prefix;
   final int code;
