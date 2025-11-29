@@ -40,4 +40,12 @@ sealed class Result<T, E extends Exception> with _$Result<T, E> {
       Failure(:final error) => Result<T, E2>.failure(convert(error)),
     };
   }
+
+  /// 成功時の値を取得、失敗時は例外をスロー
+  T getOrThrow() {
+    return switch (this) {
+      Success(:final data) => data,
+      Failure(:final error) => throw error,
+    };
+  }
 }

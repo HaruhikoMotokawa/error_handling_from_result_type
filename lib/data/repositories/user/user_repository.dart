@@ -45,9 +45,37 @@ class UserRepository {
 
   /// 指定されたIDのユーザー情報を取得する
   ///
+  /// Result型を使って、かつif-case文でネストを抑えたバージョン
+  // ignore: non_constant_identifier_names
+  Future<Result<User, GetUserException>> getUser_ver2(String id) async {
+    // 1. サーバーから取得
+    final fetchResult = await _fetchUserFromServer(id);
+
+    // 2. 取得失敗時はFetchUserExceptionをGetUserFetchExceptionにラップして返す
+    if (fetchResult case Failure(error: final fetchError)) {
+      return Result.failure(GetUserFetchException(fetchError));
+    }
+
+    // 3. ここに到達した時点でfetchResultはSuccessのはずだが、
+    //    コンパイラはそれを認識できないのでキャストが必要
+    final user = (fetchResult as Success<User, FetchUserException>).data;
+    final saveResult = await _saveUserToLocal(user);
+
+    // 4. 最後なので通常のswitchで判定
+    return switch (saveResult) {
+      // 5. 保存成功時はユーザー情報を返す
+      Success(data: final savedUser) => Result.success(savedUser),
+      // 6. 保存失敗時はSaveUserExceptionをGetUserSaveExceptionにラップして返す
+      Failure(error: final saveError) =>
+        Result.failure(GetUserSaveException(saveError)),
+    };
+  }
+
+  /// 指定されたIDのユーザー情報を取得する
+  ///
   /// Result型のメソッドを使ってswitchのネストを避けるバージョン
   // ignore: non_constant_identifier_names
-  Future<GetUserResult> getUser_ver2(String id) async {
+  Future<GetUserResult> getUser_ver3(String id) async {
     // 1. サーバーから取得
     final fetchResult = await _fetchUserFromServer(id);
 
@@ -66,7 +94,7 @@ class UserRepository {
   ///
   /// もう少しメソッドチェーンで繋げるバージョン
   // ignore: non_constant_identifier_names
-  Future<GetUserResult> getUser_ver3(String id) async {
+  Future<GetUserResult> getUser_ver4(String id) async {
     // 1. サーバーから取得
     final fetchResult = await _fetchUserFromServer(id);
 
@@ -84,7 +112,7 @@ class UserRepository {
   ///
   /// 拡張も使って読みやすくしたバージョン
   // ignore: non_constant_identifier_names
-  Future<GetUserResult> getUser_ver4(String id) async {
+  Future<GetUserResult> getUser_ver5(String id) async {
     // 1. サーバーから取得
     final fetchResult = await _fetchUserFromServer(id);
 
@@ -100,7 +128,7 @@ class UserRepository {
   ///
   /// 究極的に短く書くパターン
   // ignore: non_constant_identifier_names
-  Future<GetUserResult> getUser_ver5(String id) async =>
+  Future<GetUserResult> getUser_ver6(String id) async =>
       (await _fetchUserFromServer(id)).toGetUserResult().asyncFlatMap(
             (user) async => (await _saveUserToLocal(user)).toGetUserResult(),
           );

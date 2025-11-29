@@ -8,6 +8,6 @@ part 'user_result_provider.g.dart';
 @riverpod
 Future<GetUserResult> userResult(Ref ref, String userId) async {
   final userRepository = ref.read(userRepositoryProvider);
-  final userResult = await userRepository.getUser_ver2(userId);
+  final userResult = await userRepository.getUser_ver3(userId);
   return userResult;
 }
