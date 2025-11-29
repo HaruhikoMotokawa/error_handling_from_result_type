@@ -1,4 +1,4 @@
-part of 'user_repository.dart';
+import 'package:error_handling_from_result_type/core/exceptions/app_exception.dart';
 
 // save のエラー型（パブリック）
 sealed class SaveUserException extends AppException {
