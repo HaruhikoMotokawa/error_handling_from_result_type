@@ -1,19 +1,14 @@
+import 'package:error_handling_from_result_type/core/exceptions/app_exception_type.dart';
+
 /// アプリケーション全体で使用する基底例外クラス
 abstract class AppException implements Exception {
-  const AppException({
-    required this.prefix,
-    required this.code,
-    required this.message,
-  });
+  AppException(this.type);
 
-  /// プレフィックス（エラーの種類を識別）
-  final String prefix;
+  final AppExceptionType type;
 
-  /// エラーコード
-  final int code;
-
-  /// エラーメッセージ
-  final String message;
+  String get prefix => type.prefix;
+  int get code => type.code;
+  String get message => type.message;
 
   @override
   String toString() => '[$prefix] $code: $message';

@@ -1,14 +1,8 @@
 import 'package:error_handling_from_result_type/core/exceptions/app_exception.dart';
-import 'package:error_handling_from_result_type/core/exceptions/app_exception_type.dart';
 
 // fetch のエラー型
 sealed class FetchUserException extends AppException {
-  FetchUserException(AppExceptionType type)
-      : super(
-          prefix: type.prefix,
-          code: type.code,
-          message: type.message,
-        );
+  FetchUserException(super.type);
 }
 
 class FetchUserNetworkException extends FetchUserException {
