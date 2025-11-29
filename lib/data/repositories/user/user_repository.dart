@@ -1,13 +1,12 @@
-import 'package:error_handling_from_result_type/core/exceptions/app_exception.dart';
 import 'package:error_handling_from_result_type/core/exceptions/demo_exceptions.dart';
 import 'package:error_handling_from_result_type/core/result/result.dart';
+import 'package:error_handling_from_result_type/data/repositories/user/exceptions/fetch_user_exception.dart';
 import 'package:error_handling_from_result_type/data/repositories/user/exceptions/get_user_exception.dart';
+import 'package:error_handling_from_result_type/data/repositories/user/exceptions/save_user_exception.dart';
 import 'package:error_handling_from_result_type/data/sources/remote/user_remote_data_source.dart';
 import 'package:error_handling_from_result_type/domains/entities/user.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'user_repository.fetch_user_exception.dart';
-part 'user_repository.save_user_exception.dart';
 part 'user_repository.typedef.dart';
 
 class UserRepository {

@@ -28,18 +28,18 @@ sealed class Result<T, E extends Exception> with _$Result<T, E> {
   }
 
   /// asyncFlatMap - 成功時に非同期のResult処理を実行
-  Future<Result<R, E2>> asyncFlatMap<R, E2 extends Exception>(
-    Future<Result<R, E2>> Function(T data) transform,
+  Future<Result<R, E>> asyncFlatMap<R>(
+    Future<Result<R, E>> Function(T data) transform,
   ) async {
     return switch (this) {
       Success(:final data) => () async {
           try {
             return await transform(data);
           } on Exception catch (e) {
-            return Result<R, E2>.failure(e as E2);
+            return Result<R, E>.failure(e as E);
           }
         }(),
-      Failure(:final error) => Future.value(Result<R, E2>.failure(error as E2)),
+      Failure(:final error) => Future.value(Result<R, E>.failure(error)),
     };
   }
 

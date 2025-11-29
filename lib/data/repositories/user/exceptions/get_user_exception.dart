@@ -1,4 +1,5 @@
-import 'package:error_handling_from_result_type/data/repositories/user/user_repository.dart';
+import 'package:error_handling_from_result_type/data/repositories/user/exceptions/fetch_user_exception.dart';
+import 'package:error_handling_from_result_type/data/repositories/user/exceptions/save_user_exception.dart';
 
 sealed class GetUserException implements Exception {
   const GetUserException();
