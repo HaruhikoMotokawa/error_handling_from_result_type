@@ -26,7 +26,7 @@ class HomeScreen extends ConsumerWidget {
             ElevatedButton(
               onPressed: () async {
                 final repository = ref.read(userRepositoryProvider);
-                final result = await repository.getUser('123');
+                final result = await repository.getUser_ver2('123');
                 if (context.mounted) {
                   result.when(
                     success: (user) => _showUserDialog(context, user),
@@ -52,7 +52,7 @@ class HomeScreen extends ConsumerWidget {
               onPressed: () async {
                 final repository = ref.read(userRepositoryProvider);
                 // 'network-error' IDでネットワークエラーをシミュレート
-                final result = await repository.getUser('network-error');
+                final result = await repository.getUser_ver2('network-error');
                 if (context.mounted) {
                   result.when(
                     success: (user) => _showUserDialog(context, user),
@@ -80,7 +80,7 @@ class HomeScreen extends ConsumerWidget {
               onPressed: () async {
                 final repository = ref.read(userRepositoryProvider);
                 // 'timeout-error' IDでタイムアウトエラーをシミュレート
-                final result = await repository.getUser('timeout-error');
+                final result = await repository.getUser_ver2('timeout-error');
                 if (context.mounted) {
                   result.when(
                     success: (user) => _showUserDialog(context, user),

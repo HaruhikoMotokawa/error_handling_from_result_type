@@ -19,7 +19,35 @@ class UserRepository {
       ref.read(userRemoteDataSourceProvider);
 
   /// 指定されたIDのユーザー情報を取得する
-  Future<GetUserResult> getUser(String id) async {
+  ///
+  /// Result型を使ってシンプルに実装したバージョン
+  // ignore: non_constant_identifier_names
+  Future<Result<User, GetUserException>> getUser_ver1(String id) async {
+    // 1. サーバーから取得
+    final fetchResult = await _fetchUserFromServer(id);
+
+    switch (fetchResult) {
+      // 2. 取得成功時はローカル保存へ
+      case Success(data: final user):
+        final saveResult = await _saveUserToLocal(user);
+        return switch (saveResult) {
+          // 3. 保存成功時はユーザー情報を返す
+          Success(data: final savedUser) => Result.success(savedUser),
+          // 4. 保存失敗時はSaveUserExceptionをGetUserSaveExceptionにラップして返す
+          Failure(error: final saveError) =>
+            Result.failure(GetUserSaveException(saveError)),
+        };
+      // 5. 取得失敗時はFetchUserExceptionをGetUserFetchExceptionにラップして返す
+      case Failure(error: final fetchError):
+        return Result.failure(GetUserFetchException(fetchError));
+    }
+  }
+
+  /// 指定されたIDのユーザー情報を取得する
+  ///
+  /// Result型のメソッドを使ってswitchのネストを避けるバージョン
+  // ignore: non_constant_identifier_names
+  Future<GetUserResult> getUser_ver2(String id) async {
     // 1. サーバーから取得
     final fetchResult = await _fetchUserFromServer(id);
 
@@ -38,7 +66,7 @@ class UserRepository {
   ///
   /// もう少しメソッドチェーンで繋げるバージョン
   // ignore: non_constant_identifier_names
-  Future<GetUserResult> getUser_Ver2(String id) async {
+  Future<GetUserResult> getUser_ver3(String id) async {
     // 1. サーバーから取得
     final fetchResult = await _fetchUserFromServer(id);
 
@@ -56,7 +84,7 @@ class UserRepository {
   ///
   /// 拡張も使って読みやすくしたバージョン
   // ignore: non_constant_identifier_names
-  Future<GetUserResult> getUser_Ver3(String id) async {
+  Future<GetUserResult> getUser_ver4(String id) async {
     // 1. サーバーから取得
     final fetchResult = await _fetchUserFromServer(id);
 
