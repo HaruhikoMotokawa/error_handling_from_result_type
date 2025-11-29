@@ -26,10 +26,44 @@ class UserRepository {
     final convertedFetch =
         fetchResult.mapError<GetUserException>(GetUserFetchException.new);
 
-    // 3. flatMapでローカル保存をチェーンし、SaveUserExceptionもラップ
+    // 3. flatMapでローカル保存する
     return convertedFetch.asyncFlatMap((user) async {
       final saveResult = await _saveUserToLocal(user);
       return saveResult.mapError<GetUserException>(GetUserSaveException.new);
+    });
+  }
+
+  /// 指定されたIDのユーザー情報を取得する
+  ///
+  /// もう少しメソッドチェーンで繋げるバージョン
+  // ignore: non_constant_identifier_names
+  Future<GetUserResult> getUser_Ver2(String id) async {
+    // 1. サーバーから取得
+    final fetchResult = await _fetchUserFromServer(id);
+
+    // 2. FetchUserExceptionをGetUserFetchExceptionにラップし、
+    //    さらにflatMapでローカル保存をチェーンし、SaveUserExceptionもラップ
+    return fetchResult
+        .mapError<GetUserException>(GetUserFetchException.new)
+        .asyncFlatMap((user) async {
+      final saveResult = await _saveUserToLocal(user);
+      return saveResult.mapError<GetUserException>(GetUserSaveException.new);
+    });
+  }
+
+  /// 指定されたIDのユーザー情報を取得する
+  ///
+  /// 拡張も使って読みやすくしたバージョン
+  // ignore: non_constant_identifier_names
+  Future<GetUserResult> getUser_Ver3(String id) async {
+    // 1. サーバーから取得
+    final fetchResult = await _fetchUserFromServer(id);
+
+    // 2. FetchUserExceptionをGetUserFetchExceptionにラップし、
+    //    さらにflatMapでローカル保存をチェーンし、SaveUserExceptionもラップ
+    return fetchResult.toGetUserResult().asyncFlatMap((user) async {
+      final saveResult = await _saveUserToLocal(user);
+      return saveResult.toGetUserResult();
     });
   }
 
