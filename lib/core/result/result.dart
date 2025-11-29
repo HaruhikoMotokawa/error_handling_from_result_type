@@ -16,13 +16,7 @@ sealed class Result<T, E extends Exception> with _$Result<T, E> {
   /// flatMap - 成功時に別のResult処理を実行
   Result<R, E> flatMap<R>(Result<R, E> Function(T data) transform) {
     return switch (this) {
-      Success(:final data) => () {
-          try {
-            return transform(data);
-          } on Exception catch (e) {
-            return Result<R, E>.failure(e as E);
-          }
-        }(),
+      Success(:final data) => transform(data),
       Failure(:final error) => Result<R, E>.failure(error),
     };
   }
@@ -32,13 +26,7 @@ sealed class Result<T, E extends Exception> with _$Result<T, E> {
     Future<Result<R, E>> Function(T data) transform,
   ) async {
     return switch (this) {
-      Success(:final data) => () async {
-          try {
-            return await transform(data);
-          } on Exception catch (e) {
-            return Result<R, E>.failure(e as E);
-          }
-        }(),
+      Success(:final data) => transform(data),
       Failure(:final error) => Future.value(Result<R, E>.failure(error)),
     };
   }
