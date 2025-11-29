@@ -1,46 +1,28 @@
 import 'package:error_handling_from_result_type/core/exceptions/app_exception.dart';
+import 'package:error_handling_from_result_type/core/exceptions/app_exception_type.dart';
 
 // fetch のエラー型
 sealed class FetchUserException extends AppException {
-  const FetchUserException({
-    required super.prefix,
-    required super.code,
-    required super.message,
-  });
+  FetchUserException(AppExceptionType type)
+      : super(
+          prefix: type.prefix,
+          code: type.code,
+          message: type.message,
+        );
 }
 
 class FetchUserNetworkException extends FetchUserException {
-  const FetchUserNetworkException()
-      : super(
-          prefix: 'FetchUser',
-          code: 1001,
-          message: 'ネットワークに接続できません',
-        );
+  FetchUserNetworkException(super.type);
 }
 
 class FetchUserServerException extends FetchUserException {
-  const FetchUserServerException()
-      : super(
-          prefix: 'FetchUser',
-          code: 1002,
-          message: 'サーバーエラーが発生しました',
-        );
+  FetchUserServerException(super.type);
 }
 
 class FetchUserTimeoutException extends FetchUserException {
-  const FetchUserTimeoutException()
-      : super(
-          prefix: 'FetchUser',
-          code: 1003,
-          message: 'リクエストがタイムアウトしました',
-        );
+  FetchUserTimeoutException(super.type);
 }
 
 class FetchUserUnexpectedException extends FetchUserException {
-  const FetchUserUnexpectedException(String detail)
-      : super(
-          prefix: 'FetchUser',
-          code: 1099,
-          message: '予期しないエラー: $detail',
-        );
+  FetchUserUnexpectedException(super.type);
 }
