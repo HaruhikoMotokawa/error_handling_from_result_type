@@ -96,6 +96,15 @@ class UserRepository {
     });
   }
 
+  /// 指定されたIDのユーザー情報を取得する
+  ///
+  /// 究極的に短く書くパターン
+  // ignore: non_constant_identifier_names
+  Future<GetUserResult> getUser_ver5(String id) async =>
+      (await _fetchUserFromServer(id)).toGetUserResult().asyncFlatMap(
+            (user) async => (await _saveUserToLocal(user)).toGetUserResult(),
+          );
+
   /// サーバーからユーザー情報を取得する(プライベートメソッド)
   Future<_FetchUserResult> _fetchUserFromServer(
     String id,
