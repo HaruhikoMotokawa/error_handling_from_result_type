@@ -18,7 +18,7 @@ class UserRepository {
   UserRemoteDataSource get _remoteDataSource =>
       ref.read(userRemoteDataSourceProvider);
 
-  /// ユーザー情報をローカルに保存する（プライベートメソッド・仮実装）
+  /// ユーザー情報をローカルに保存する
   Future<SaveUserResult> saveUser(User user) async {
     try {
       // 実際にはSharedPreferencesやIsarなどで保存する想定
