@@ -3,6 +3,7 @@ import 'package:error_handling_from_result_type/data/repositories/user/exception
 import 'package:error_handling_from_result_type/data/repositories/user/exceptions/get_user_exception.dart';
 import 'package:error_handling_from_result_type/data/repositories/user/exceptions/save_user_exception.dart';
 import 'package:error_handling_from_result_type/data/repositories/user/providers/user_provider.dart';
+import 'package:error_handling_from_result_type/data/repositories/user/providers/user_repository_provider.dart';
 import 'package:error_handling_from_result_type/data/repositories/user/providers/user_result_provider.dart';
 import 'package:error_handling_from_result_type/data/repositories/user/user_repository.dart';
 import 'package:error_handling_from_result_type/domains/entities/user.dart';
@@ -46,6 +47,43 @@ class HomeScreen extends ConsumerWidget {
             ],
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.add),
+        onPressed: () async {
+          // 新規ユーザー（入力されたユーザーと仮定）
+          const newUser = User(
+            id: 'generated-id',
+            name: 'Steven Gerard',
+            email: 'steven.gerard@example.com',
+          );
+
+          // ユーザー情報の保存処理を実行
+          final repository = ref.read(userRepositoryProvider);
+          final result = await repository.saveUser(newUser);
+
+          // 結果に応じてメッセージを表示
+          late final String message;
+          switch (result) {
+            case Success(data: final user):
+              message = 'User ${user.name} created successfully!';
+
+            case Failure(error: final error):
+              final description = switch (error) {
+                SaveUserStorageException() =>
+                  '💽 Storage Error: ${error.message}',
+                SaveUserPermissionException() =>
+                  '✍️ Permission Error: ${error.message}',
+                SaveUserUnexpectedException() =>
+                  '❓ Unexpected Error: ${error.message}',
+              };
+              message = 'Error creating user: $description';
+          }
+
+          if (context.mounted == false) return;
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text(message)));
+        },
       ),
     );
   }

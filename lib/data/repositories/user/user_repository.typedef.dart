@@ -7,14 +7,14 @@ typedef GetUserResult = Result<User, GetUserException>;
 typedef _FetchUserResult = Result<User, FetchUserException>;
 
 /// SaveUserの戻り値型
-typedef _SaveUserResult = Result<User, SaveUserException>;
+typedef SaveUserResult = Result<User, SaveUserException>;
 
 extension on _FetchUserResult {
   GetUserResult toGetUserResult() =>
       mapError<GetUserException>(GetUserFetchException.new);
 }
 
-extension on _SaveUserResult {
+extension on SaveUserResult {
   GetUserResult toGetUserResult() =>
       mapError<GetUserException>(GetUserSaveException.new);
 }

@@ -18,6 +18,29 @@ class UserRepository {
   UserRemoteDataSource get _remoteDataSource =>
       ref.read(userRemoteDataSourceProvider);
 
+  /// ユーザー情報をローカルに保存する（プライベートメソッド・仮実装）
+  Future<SaveUserResult> saveUser(User user) async {
+    try {
+      // 実際にはSharedPreferencesやIsarなどで保存する想定
+      await Future<void>.delayed(const Duration(milliseconds: 100));
+
+      // 正常に保存完了
+      return Result.success(user);
+    } on StorageException {
+      return Result.failure(
+        SaveUserStorageException(AppExceptionType.saveUserStorage),
+      );
+    } on PermissionException {
+      return Result.failure(
+        SaveUserPermissionException(AppExceptionType.saveUserPermission),
+      );
+    } on Exception {
+      return Result.failure(
+        SaveUserUnexpectedException(AppExceptionType.saveUserUnexpected),
+      );
+    }
+  }
+
   /// 指定されたIDのユーザー情報を取得する
   ///
   /// Result型を使ってシンプルに実装したバージョン
@@ -29,7 +52,7 @@ class UserRepository {
     switch (fetchResult) {
       // 2. 取得成功時はローカル保存へ
       case Success(data: final user):
-        final saveResult = await _saveUserToLocal(user);
+        final saveResult = await saveUser(user);
         return switch (saveResult) {
           // 3. 保存成功時はユーザー情報を返す
           Success(data: final savedUser) => Result.success(savedUser),
@@ -59,7 +82,7 @@ class UserRepository {
     // 3. ここに到達した時点でfetchResultはSuccessのはずだが、
     //    コンパイラはそれを認識できないのでキャストが必要
     final user = (fetchResult as Success<User, FetchUserException>).data;
-    final saveResult = await _saveUserToLocal(user);
+    final saveResult = await saveUser(user);
 
     // 4. 最後なので通常のswitchで判定
     return switch (saveResult) {
@@ -85,7 +108,7 @@ class UserRepository {
 
     // 3. flatMapでローカル保存する
     return convertedFetch.asyncFlatMap((user) async {
-      final saveResult = await _saveUserToLocal(user);
+      final saveResult = await saveUser(user);
       return saveResult.mapError<GetUserException>(GetUserSaveException.new);
     });
   }
@@ -103,7 +126,7 @@ class UserRepository {
     return fetchResult
         .mapError<GetUserException>(GetUserFetchException.new)
         .asyncFlatMap((user) async {
-      final saveResult = await _saveUserToLocal(user);
+      final saveResult = await saveUser(user);
       return saveResult.mapError<GetUserException>(GetUserSaveException.new);
     });
   }
@@ -119,7 +142,7 @@ class UserRepository {
     // 2. FetchUserExceptionをGetUserFetchExceptionにラップし、
     //    さらにflatMapでローカル保存をチェーンし、SaveUserExceptionもラップ
     return fetchResult.toGetUserResult().asyncFlatMap((user) async {
-      final saveResult = await _saveUserToLocal(user);
+      final saveResult = await saveUser(user);
       return saveResult.toGetUserResult();
     });
   }
@@ -130,7 +153,7 @@ class UserRepository {
   // ignore: non_constant_identifier_names
   Future<GetUserResult> getUser_ver6(String id) async =>
       (await _fetchUserFromServer(id)).toGetUserResult().asyncFlatMap(
-            (user) async => (await _saveUserToLocal(user)).toGetUserResult(),
+            (user) async => (await saveUser(user)).toGetUserResult(),
           );
 
   /// サーバーからユーザー情報を取得する(プライベートメソッド)
@@ -155,29 +178,6 @@ class UserRepository {
     } on Exception {
       return Result.failure(
         FetchUserUnexpectedException(AppExceptionType.fetchUserUnexpected),
-      );
-    }
-  }
-
-  /// ユーザー情報をローカルに保存する（プライベートメソッド・仮実装）
-  Future<_SaveUserResult> _saveUserToLocal(User user) async {
-    try {
-      // 実際にはSharedPreferencesやIsarなどで保存する想定
-      await Future<void>.delayed(const Duration(milliseconds: 100));
-
-      // 正常に保存完了
-      return Result.success(user);
-    } on StorageException {
-      return Result.failure(
-        SaveUserStorageException(AppExceptionType.saveUserStorage),
-      );
-    } on PermissionException {
-      return Result.failure(
-        SaveUserPermissionException(AppExceptionType.saveUserPermission),
-      );
-    } on Exception {
-      return Result.failure(
-        SaveUserUnexpectedException(AppExceptionType.saveUserUnexpected),
       );
     }
   }
