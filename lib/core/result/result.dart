@@ -13,7 +13,17 @@ sealed class Result<T, E extends Exception> with _$Result<T, E> {
   /// 失敗
   const factory Result.failure(E error) = Failure<T, E>;
 
-  /// flatMap - 成功時に別のResult処理を実行
+  /// エラー型を別の型に変換
+  Result<T, E2> mapError<E2 extends Exception>(
+    E2 Function(E error) convert,
+  ) {
+    return switch (this) {
+      Success(:final data) => Result<T, E2>.success(data),
+      Failure(:final error) => Result<T, E2>.failure(convert(error)),
+    };
+  }
+
+  /// 成功時に別のResult処理を実行
   Result<R, E> flatMap<R>(Result<R, E> Function(T data) transform) {
     return switch (this) {
       Success(:final data) => transform(data),
@@ -21,23 +31,13 @@ sealed class Result<T, E extends Exception> with _$Result<T, E> {
     };
   }
 
-  /// asyncFlatMap - 成功時に非同期のResult処理を実行
+  /// 成功時に非同期のResult処理を実行
   Future<Result<R, E>> asyncFlatMap<R>(
     Future<Result<R, E>> Function(T data) transform,
   ) async {
     return switch (this) {
       Success(:final data) => transform(data),
       Failure(:final error) => Future.value(Result<R, E>.failure(error)),
-    };
-  }
-
-  /// mapError - エラー型を別の型に変換
-  Result<T, E2> mapError<E2 extends Exception>(
-    E2 Function(E error) convert,
-  ) {
-    return switch (this) {
-      Success(:final data) => Result<T, E2>.success(data),
-      Failure(:final error) => Result<T, E2>.failure(convert(error)),
     };
   }
 

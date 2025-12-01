@@ -45,7 +45,7 @@ class UserRepository {
   ///
   /// Result型を使ってシンプルに実装したバージョン
   // ignore: non_constant_identifier_names
-  Future<Result<User, GetUserException>> getUser_ver1(String id) async {
+  Future<GetUserResult> getUser_ver1(String id) async {
     // 1. サーバーから取得
     final fetchResult = await _fetchUserFromServer(id);
 
