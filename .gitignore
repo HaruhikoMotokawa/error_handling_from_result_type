@@ -84,3 +84,6 @@ lib/core/env.g.dart
 # pigeonのファイルはg.dartをignoreから除外する
 !test/test_api.g.dart
 !messages.g.dart
+
+# cursor
+.cursor/mcp.json
